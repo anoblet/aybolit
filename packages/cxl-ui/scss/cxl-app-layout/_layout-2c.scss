@@ -31,6 +31,7 @@
 
     &[opened] {
       max-height: calc(100vh * 2);
+      padding-bottom: var(--lumo-space-m);
 
       ::slotted(*) {
         opacity: unset;
@@ -65,6 +66,13 @@
 }
 
 :host([layout^="2c"][wide]) {
+  aside,
+  main {
+    > slot {
+      @include mixins.wrap($padding: var(--lumo-space-l));
+    }
+  }
+
   aside {
     --cxl-app-layout-drawer-width: calc(22 * var(--lumo-space-m));
     --cxl-app-layout-drawer-padding: calc(var(--cxl-wrap-padding) * 2);
