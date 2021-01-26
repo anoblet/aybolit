@@ -6,10 +6,6 @@
 
 :host([layout="2c-r"][wide]) {
   aside {
-    > slot {
-      padding-left: unset;
-    }
-
     > vaadin-button {
       left: 1px;
     }
@@ -23,6 +19,17 @@
         border-bottom-right-radius: unset;
         transform: translateX(-100%);
       }
+    }
+
+    /**
+     * Widgets.
+     */
+    ::slotted(.widget) {
+      padding-right: calc(var(--cxl-wrap-padding) * 2);
+    }
+
+    ::slotted(.widget:not(.has-background)) {
+      padding-left: unset
     }
   }
 

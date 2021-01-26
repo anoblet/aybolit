@@ -4,6 +4,8 @@
 @use "~@conversionxl/cxl-lumo-styles/scss/mixins";
 @use "layout";
 
+$vertical-padding: var(--cxl-wrap-padding);
+
 :host([layout^="2c"]) {
   #main {
     @include mixins.wrap();
@@ -21,7 +23,7 @@
     position: relative;
     // @see https://stackoverflow.com/questions/3508605/how-can-i-transition-height-0-to-height-auto-using-css
     max-height: var(--lumo-font-size-xxl);
-    padding-bottom: calc(35px + var(--lumo-space-m)); // Peek partial content.
+    padding-bottom: calc(35px + var(--lumo-space-xl)); // Peek partial content.
     transition: var(--cxl-app-layout-drawer-transition);
 
     // Exclude vaadin-button.
@@ -31,7 +33,7 @@
 
     &[opened] {
       max-height: calc(100vh * 2);
-      padding-bottom: var(--lumo-space-m);
+      padding-bottom: var(--lumo-space-xl);
 
       ::slotted(*) {
         opacity: unset;
@@ -55,6 +57,22 @@
     [icon="#{layout.$toggle-icon}"] {
       transform: rotate(90deg);
     }
+
+    /**
+     * Widgets.
+     */
+    ::slotted(.widget) {
+      // Match `main`.
+      margin-top: $vertical-padding;
+      margin-bottom: $vertical-padding;
+    }
+
+    ::slotted(.widget.has-background) {
+      padding-top: $vertical-padding;
+      padding-bottom: $vertical-padding;
+      margin-top: unset;
+      margin-bottom: unset;
+    }
   }
 
   main {
@@ -66,13 +84,6 @@
 }
 
 :host([layout^="2c"][wide]) {
-  aside,
-  main {
-    > slot {
-      @include mixins.wrap($padding: var(--lumo-space-l));
-    }
-  }
-
   aside {
     --cxl-app-layout-drawer-width: calc(22 * var(--lumo-space-m));
     --cxl-app-layout-drawer-padding: calc(var(--cxl-wrap-padding) * 2);
@@ -87,12 +98,16 @@
     padding-bottom: unset;
     margin-right: var(--cxl-app-layout-drawer-peek-margin);
 
-    slot[name="sidebar"] {
-      padding-right: var(--cxl-app-layout-drawer-padding);
+    &[opened] {
+      margin-right: 0;
+
+      [icon="#{layout.$toggle-icon}"] {
+        transform: rotate(180deg);
+      }
     }
 
     > vaadin-button {
-      top: calc(var(--cxl-wrap-padding) - 6px);
+      top: calc(#{$vertical-padding} - 6px);
       bottom: unset;
       transition: var(--cxl-app-layout-drawer-transition);
 
@@ -105,12 +120,12 @@
       transform: unset;
     }
 
-    &[opened] {
-      margin-right: 0;
-
-      [icon="#{layout.$toggle-icon}"] {
-        transform: rotate(180deg);
-      }
+    /**
+     * Widgets.
+     */
+    ::slotted(.widget) {
+      padding-right: $vertical-padding;
+      padding-left: $vertical-padding;
     }
   }
 
@@ -121,7 +136,12 @@
     [icon="#{layout.$toggle-icon}"] {
       transform: unset;
     }
+
+    > slot {
+      @include mixins.wrap($padding: var(--lumo-space-l));
+    }
   }
+
 
   #main {
     display: flex;

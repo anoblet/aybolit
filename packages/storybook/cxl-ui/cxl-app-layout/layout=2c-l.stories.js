@@ -20,14 +20,16 @@ export const CXLAppLayout2cl = () => {
     >
       ${CXLMarketingNav()}
 
-      <div slot="sidebar">
-        <h3>Menu</h3>
+      <section class="widget has-background" slot="sidebar" style="background-color: var(--lumo-shade-5pct)">
+        <label>Widget</label>
+        <h3 class="widget-title">Menu</h3>
         <ul>
           <li>Menu item 1</li>
           <li>Menu item 2</li>
           <li>Menu item 3</li>
         </ul>
-      </div>
+      </section>
+
       <article class="entry">
         <header class="entry-header">
           <label>Page</label>

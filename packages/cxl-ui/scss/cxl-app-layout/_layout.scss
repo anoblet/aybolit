@@ -5,6 +5,13 @@ $toggle-icon: "lumo:angle-right";
 
 :host {
   display: block;
+
+  aside,
+  main {
+    > slot {
+      display: block;
+    }
+  }
 }
 
 /**
@@ -25,7 +32,6 @@ $toggle-icon: "lumo:angle-right";
  */
 :host([layout^="1c"]:not([layout="1c"])),
 :host([layout^="2c"]) {
-  aside,
   main {
     /**
      * Padding vs overflow: padding inner container (`<slot>`) currently works best.
@@ -33,7 +39,6 @@ $toggle-icon: "lumo:angle-right";
      * @see https://bugzilla.mozilla.org/show_bug.cgi?id=748518#c55
      */
     > slot {
-      display: block;
       padding-top: var(--cxl-wrap-padding);
       padding-bottom: var(--cxl-wrap-padding);
     }
