@@ -1,10 +1,5 @@
 {
-  "extends": [
-    "plugin:import/recommended",
-    "plugin:lit/recommended",
-    "airbnb-base",
-    "prettier"
-  ],
+  "extends": ["plugin:import/recommended", "plugin:lit/recommended", "airbnb-base", "prettier"],
   "env": {
     "browser": true
   },
@@ -12,17 +7,18 @@
     "class-methods-use-this": [
       "error",
       {
-        "exceptMethods": [ "render" ]
+        "exceptMethods": ["render"]
       }
     ],
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "no-restricted-globals": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "import/no-unresolved": "off"
   },
   "overrides": [
     {
-      "files": [ "*.spec.js" ],
+      "files": ["*.spec.js"],
       "env": {
         "mocha": true
       },
@@ -35,10 +31,7 @@
       }
     },
     {
-      "files": [
-        "packages/sass-render/**/*",
-        "scripts/watcher.js"
-      ],
+      "files": ["packages/sass-render/**/*", "scripts/watcher.js"],
       "rules": {
         "no-console": "off"
       }
