@@ -1,15 +1,24 @@
 /**
  * @todo implement primary action button.
  */
-import { LitElement, html, customElement, property, query } from 'lit-element';
 import '@conversionxl/cxl-lumo-styles';
 import { registerGlobalStyles } from '@conversionxl/cxl-lumo-styles/src/utils';
-import cxlAppLayoutStyles from '../styles/cxl-app-layout-css.js';
-import cxlAppLayoutGlobalStyles from '../styles/global/cxl-app-layout-css.js';
 import '@vaadin/vaadin-button';
 import '@vaadin/vaadin-context-menu/src/vaadin-device-detector.js';
+import '@vaadin/vaadin-split-layout';
+import { customElement, html, LitElement, property, query } from 'lit-element';
+import { nothing } from 'lit-html';
+import cxlAppLayoutStyles from '../styles/cxl-app-layout-css.js';
+import cxlAppLayoutGlobalStyles from '../styles/global/cxl-app-layout-css.js';
 
 const ASIDE_LOCAL_STORAGE_KEY = 'cxl-app-layout-aside-opened';
+
+const observe = (mediaQueryString, callback) => {
+  const observer = window.matchMedia(mediaQueryString);
+  const matches = (mediaQueryList) => callback(mediaQueryList.matches);
+  matches(observer);
+  observer.addEventListener('change', matches);
+};
 
 @customElement('cxl-app-layout')
 export class CXLAppLayoutElement extends LitElement {
@@ -91,41 +100,33 @@ export class CXLAppLayoutElement extends LitElement {
       </header>
 
       <div id="main">
-        ${this.getAttribute('layout') === '2c-r'
-          ? html`
-              ${asideElement}
-            `
-          : ''}
-        ${mainElement}
-        ${this.getAttribute('layout') === '2c-l'
-          ? html`
-              ${asideElement}
-            `
-          : ''}
+        ${this.layout === '1c' || this.layout === '1c-c' || this.layout === '1c-w'
+          ? html` ${mainElement} `
+          : html`
+              <vaadin-split-layout orientation=${this.wide ? 'horizontal' : 'vertical'}>
+                ${!this.wide || this.layout === '2c-r' ? html` ${asideElement} ` : nothing}
+                ${mainElement}
+                ${this.wide && this.layout === '2c-l' ? html` ${asideElement} ` : nothing}
+              </vaadin-split-layout>
+            `}
       </div>
 
       <footer role="contentinfo" itemscope="itemscope" itemtype="https://schema.org/WPFooter">
         <slot name="footer"></slot>
       </footer>
-
-      <vaadin-device-detector
-        @wide-changed="${e => {
-          const { wide } = e.target;
-
-          Promise.resolve().then(() => {
-            this.wide = wide;
-          });
-        }}"
-      ></vaadin-device-detector>
     `;
   }
 
   firstUpdated(_changedProperties) {
     super.firstUpdated(_changedProperties);
 
+    observe('(min-width: 512px)', (wide) => {
+      this.wide = wide;
+    });
+
     // Global styles.
     registerGlobalStyles(cxlAppLayoutGlobalStyles, {
-      moduleId: 'cxl-app-layout-global'
+      moduleId: 'cxl-app-layout-global',
     });
   }
 }
