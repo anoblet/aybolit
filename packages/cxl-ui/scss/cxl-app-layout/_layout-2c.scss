@@ -6,12 +6,6 @@
 
 $vertical-padding: var(--cxl-wrap-padding);
 
-:host([layout^="2c"]) {
-  #main {
-    @include mixins.wrap();
-  }
-}
-
 /**
  * Drawer.
  */
@@ -49,7 +43,8 @@ $vertical-padding: var(--cxl-wrap-padding);
       bottom: -1px; // Clip border.
       z-index: 1;
       padding: 0;
-      margin: 0;
+      margin: unset;
+      margin-left: var(--cxl-wrap-padding);
       background-color: var(--lumo-base-color);
       border: solid 1px var(--lumo-contrast-10pct);
     }
@@ -63,6 +58,8 @@ $vertical-padding: var(--cxl-wrap-padding);
      */
     ::slotted(.widget) {
       // Match `main`.
+      @include mixins.wrap();
+
       margin-top: $vertical-padding;
       margin-bottom: $vertical-padding;
     }
@@ -109,6 +106,7 @@ $vertical-padding: var(--cxl-wrap-padding);
     > vaadin-button {
       top: calc(#{$vertical-padding} - 6px);
       bottom: unset;
+      margin-left: unset;
       transition: var(--cxl-app-layout-drawer-transition);
 
       &:hover {
@@ -118,14 +116,6 @@ $vertical-padding: var(--cxl-wrap-padding);
 
     [icon="#{layout.$toggle-icon}"] {
       transform: unset;
-    }
-
-    /**
-     * Widgets.
-     */
-    ::slotted(.widget) {
-      padding-right: $vertical-padding;
-      padding-left: $vertical-padding;
     }
   }
 
@@ -144,9 +134,12 @@ $vertical-padding: var(--cxl-wrap-padding);
 
 
   #main {
-    display: flex;
+    /**
+     * Wrap content, space edges.
+     */
+    @include mixins.wrap();
 
-    // @todo #main @include mixins.wrap() shrinks flex child. Flex-native expand solution?
+    display: flex;
     width: calc(100% - var(--cxl-wrap-padding) * 2);
   }
 }

@@ -11,8 +11,15 @@ export default {
 
 export const CXLAppLayout2cl = () => {
   const hasPanelsScroll = boolean('Has panels scroll?', true);
+  const hasWidgetBackground = boolean('Has widget background?', false);
 
   return html`
+    <style>
+      .widget.has-background {
+        background-color: var(--lumo-shade-5pct);
+      }
+    </style>
+
     <cxl-app-layout
       id="container"
       layout="2c-l"
@@ -20,7 +27,7 @@ export const CXLAppLayout2cl = () => {
     >
       ${CXLMarketingNav()}
 
-      <section class="widget has-background" slot="sidebar" style="background-color: var(--lumo-shade-5pct)">
+      <section class="widget ${hasWidgetBackground ? 'has-background' : ''}" slot="sidebar">
         <label>Widget</label>
         <h3 class="widget-title">Menu</h3>
         <ul>
